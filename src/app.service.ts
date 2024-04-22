@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User } from './models/user.model';
-import { Account } from './models/account.model';
-import { Transaction } from './models/transaction.model';
-import { Category } from './models/category.model';
-import { Budget } from './models/budget.model';
+import { User } from './users/entities/user.entity';
+import { Account } from './accounts/entities/account.entity';
+import { Transaction } from "./transactions /entities/transactions.entity";
+
+import { Category } from './categories/entities/category.entity';
+import { Budget } from './budgets /entities/budget.entity';
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -44,8 +45,9 @@ export class AppService {
 
   async createUser(user: User): Promise<User> {
     if (!user.id) {
-      user.id = uuidv4(); 
+      user.id = parseInt(uuidv4(), 10);
     }
+    
     const newUser = new this.userModel(user);
     return await newUser.save();
   }

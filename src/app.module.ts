@@ -1,24 +1,29 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { User, userSchema } from './models/user.model';
-import { Account, accountSchema } from './models/account.model';
-import { Transaction, transactionSchema } from './models/transaction.model';
-import { Category, categorySchema } from './models/category.model';
-import { Budget, budgetSchema } from './models/budget.model'; 
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserService } from './users/users.service';
+import { User } from './users/entities/user.entity';
+import { Account } from './accounts/entities/account.entity';
+import { Category } from './categories/entities/category.entity';
+import { Budget } from './budgets /entities/budget.entity';
+import { Transaction } from "./transactions /entities/transactions.entity";
+
+
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://kayitaramirwaaclever:BXZb0KDQ9JrQWwKn@cluster0.3sutze3.mongodb.net/'), 
-    MongooseModule.forFeature([
-      { name: User.name, schema: userSchema },
-      { name: Account.name, schema: accountSchema },
-      { name: Transaction.name, schema: transactionSchema },
-      { name: Category.name, schema: categorySchema },
-      { name: Budget.name, schema: budgetSchema }, 
-    ]),
+    TypeOrmModule.forRoot({
+      type: 'mysql', 
+      host: 'localhost', 
+      port: 3306, 
+      username: 'kayitaclever', 
+      password: 'Tumwesige19', 
+      database: 'cashflow', 
+      entities: [User,Account,Category,Budget,Transaction],
+      synchronize: false, 
+    }),
+    
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController], 
+  providers: [UserService], 
 })
 export class AppModule {}

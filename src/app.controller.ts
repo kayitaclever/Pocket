@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus } from '@nestjs/common';
 import { AppService } from './app.service';
-import { User } from './models/user.model';
-import { Account } from './models/account.model';
-import { Transaction } from './models/transaction.model';
-import { Category } from './models/category.model';
-import { Budget } from './models/budget.model'; 
+import { User } from './users/entities/user.entity';
+import { Account } from './accounts/entities/account.entity';
+import { Transaction } from "./transactions /entities/transactions.entity";
+import { Category } from './categories/entities/category.entity';
+import { Budget } from './budgets /entities/budget.entity'; 
 
 @Controller()
 export class AppController {
