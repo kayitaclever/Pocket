@@ -55,7 +55,7 @@ export class TransactionsController {
       }
     
       private handleError(error: any): any {
-        // Implement proper error handling for database interactions
+        
         console.error(error);
         return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Internal Server Error' };
       }
