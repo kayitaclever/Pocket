@@ -11,6 +11,9 @@ export class CategoryService {
     const newCategory = await this.categoryRepository.save(category);
     return newCategory;
   }
+  async getAllCategories(): Promise<Category[]> {
+    return await this.categoryRepository.find();
+  }
 
   async getCategoryById(id: string): Promise<Category | null> {
     const numericId = parseInt(id, 10); 

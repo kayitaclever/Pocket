@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus, HttpException } from '@nestjs/common';
 import { CategoryService } from './categories.service';
 import { Category } from './entities/category.entity';
 
@@ -15,7 +15,15 @@ export class CategoriesController {
       return this.handleError(error);
     }
   }
-
+  @Get()
+  async getAllCategories(): Promise<Category[]> {
+    try {
+      const categories = await this.categoryService.getAllCategories();
+      return categories;
+    } catch (error) {
+      throw new HttpException(this.handleError(error), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
   @Get(':id')
   async getCategoryById(@Param('id') id: string): Promise<Category | null> {
     try {

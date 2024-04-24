@@ -2,7 +2,7 @@ import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus } from
 import { AppService } from './app.service';
 import { User } from './users/entities/user.entity';
 import { Account } from './accounts/entities/account.entity';
-import { Transaction } from "./transactions /entities/transactions.entity";
+import { Transactions } from "./transactions /entities/transactions.entity";
 import { Category } from './categories/entities/category.entity';
 import { Budget } from './budgets /entities/budget.entity'; 
 
@@ -89,7 +89,7 @@ export class AppController {
   
 
   @Post('/transactions') 
-  async createTransaction(@Body() transaction: Transaction): Promise<Transaction | any> {
+  async createTransaction(@Body() transaction: Transactions): Promise<Transactions | any> {
     try {
       const newTransaction = await this.appService.createTransaction(transaction);
       return newTransaction;
@@ -99,7 +99,7 @@ export class AppController {
   }
 
   @Get('/transactions/:id') 
-  async getTransactionById(@Param('id') id: string): Promise<Transaction | null> {
+  async getTransactionById(@Param('id') id: string): Promise<Transactions | null> {
     try {
       return await this.appService.getTransactionById(id);
     } catch (error) {
@@ -108,7 +108,7 @@ export class AppController {
   }
 
   @Get('/accounts/:accountId/transactions') 
-  async getTransactionsByAccountId(@Param('accountId') accountId: string): Promise<Transaction[] | any> {
+  async getTransactionsByAccountId(@Param('accountId') accountId: string): Promise<Transactions[] | any> {
     try {
       return await this.appService.getTransactionById(accountId);
     } catch (error) {
@@ -117,7 +117,7 @@ export class AppController {
   }
 
   @Put('/transactions/:id') 
-  async updateTransaction(@Param('id') id: string, @Body() updateData: Partial<Transaction>): Promise<Transaction | any> {
+  async updateTransaction(@Param('id') id: string, @Body() updateData: Partial<Transactions>): Promise<Transactions | any> {
     try {
       return await this.appService.updateTransaction(id, updateData);
     } catch (error) {

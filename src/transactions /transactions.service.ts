@@ -1,26 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Transaction } from './entities/transactions.entity';
+import { Transactions } from './entities/transactions.entity';
 import { Category } from '../categories/entities/category.entity';
 
 @Injectable()
-export class TransactionService {
-  constructor(@InjectRepository(Transaction) private readonly transactionRepository: Repository<Transaction>) {}
+export class TransactionsService {
+  constructor(@InjectRepository(Transactions) private readonly transactionRepository: Repository<Transactions>) {}
 
-  async createTransaction(transaction: Transaction): Promise<Transaction> {
+  async createTransaction(transaction: Transactions): Promise<Transactions> {
     const newTransaction = await this.transactionRepository.save(transaction);
     return newTransaction;
   }
 
-  async getTransactionById(id: string): Promise<Transaction | null> {
+  async getAllTransactions(): Promise<Transactions[]> {
+    return await this.transactionRepository.find();
+  }
+
+  async getTransactionById(id: string): Promise<Transactions | null> {
     const numericId = parseInt(id, 10); 
 
     return await this.transactionRepository.findOne({ where: { id: numericId } });
 ;
   }
 
-  async updateTransaction(id: string, updateData: Partial<Transaction>): Promise<Transaction | null> {
+  async updateTransaction(id: string, updateData: Partial<Transactions>): Promise<Transactions | null> {
     const numericId = parseInt(id, 10);
     await this.transactionRepository.update({ id: numericId }, updateData); 
     return await this.getTransactionById(id);

@@ -1,45 +1,53 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus } from '@nestjs/common';
-import { TransactionService } from './transactions.service';
-import { Transaction } from './entities/transactions.entity';
+import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus, HttpException } from '@nestjs/common';
+import { TransactionsService } from './transactions.service';
+import { Transactions } from './entities/transactions.entity';
 
 
 @Controller('transactions')
 export class TransactionsController {
-  constructor(private readonly transactionService: TransactionService) {}
+  constructor(private readonly transactionsService: TransactionsService) {}
 
   @Post()
-  async createTransaction(@Body() transaction: Transaction): Promise<Transaction | any> {
+  async createTransaction(@Body() transaction: Transactions): Promise<Transactions | any> {
     
     try {
-        const newTransaction = await this.transactionService.createTransaction(transaction);
+        const newTransaction = await this.transactionsService.createTransaction(transaction);
         return newTransaction;
       } catch (error) {
         return this.handleError(error);
       }
     }
-    
+    @Get()
+  async getAllTransactions(): Promise<Transactions[]> {
+    try {
+      const transactions = await this.transactionsService.getAllTransactions();
+      return transactions;
+    } catch (error) {
+      throw new HttpException(this.handleError(error), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
       @Get(':id')
-      async getTransactionById(@Param('id') id: string): Promise<Transaction | null> {
+      async getTransactionById(@Param('id') id: string): Promise<Transactions | null> {
         try {
-          return await this.transactionService.getTransactionById(id);
+          return await this.transactionsService.getTransactionById(id);
         } catch (error) {
           return this.handleError(error);
         }
       }
     
       @Get('/accounts/:accountId/transactions')
-      async getTransactionsByAccountId(@Param('accountId') accountId: string): Promise<Transaction[] | any> {
+      async getTransactionsByAccountId(@Param('accountId') accountId: string): Promise<Transactions[] | any> {
         try {
-          return await this.transactionService.getTransactionById(accountId);
+          return await this.transactionsService.getTransactionById(accountId);
         } catch (error) {
           return this.handleError(error);
         }
       }
     
       @Put(':id')
-      async updateTransaction(@Param('id') id: string, @Body() updateData: Partial<Transaction>): Promise<Transaction | null> {
+      async updateTransaction(@Param('id') id: string, @Body() updateData: Partial<Transactions>): Promise<Transactions | null> {
         try {
-          return await this.transactionService.updateTransaction(id, updateData);
+          return await this.transactionsService.updateTransaction(id, updateData);
         } catch (error) {
           return this.handleError(error);
         }
@@ -48,7 +56,7 @@ export class TransactionsController {
       @Delete(':id')
       async deleteTransaction(@Param('id') id: string): Promise<any> {
         try {
-          return await this.transactionService.deleteTransaction(id);
+          return await this.transactionsService.deleteTransaction(id);
         } catch (error) {
           return this.handleError(error);
         }

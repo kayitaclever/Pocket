@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus, HttpException } from '@nestjs/common';
 import { AccountService } from './accounts.service';
 import { Account } from './entities/account.entity';
 
@@ -13,6 +13,16 @@ export class AccountsController {
       return newAccount;
     } catch (error) {
       return this.handleError(error);
+    }
+  }
+
+  @Get()
+  async getAllAccounts(): Promise<Account[]> {
+    try {
+      const accounts = await this.accountService.getAllAccounts();
+      return accounts;
+    } catch (error) {
+      throw new HttpException(this.handleError(error), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

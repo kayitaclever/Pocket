@@ -1,9 +1,11 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { User } from "../../users/entities/user.entity";
 import { Account } from "../../accounts/entities/account.entity";
+import { Category } from "src/categories/entities/category.entity";
+import { CategoriesController } from "src/categories/categories.controller";
 
-@Entity()
-export class Transaction {
+@Entity('transactions')
+export class Transactions {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -12,8 +14,6 @@ export class Transaction {
 
   @Column()
   date: Date;
-  @Column({ nullable: true })
-  category: string; 
 
  
   @Column()
@@ -28,7 +28,9 @@ export class Transaction {
 
   @ManyToOne(() => Account, (account) => account.transactions)
   account: Account;
-  categories: any;
+  
+  @ManyToOne (()=> Category, (category)=> category.transactions)
+  category: Category;
 }
 
  

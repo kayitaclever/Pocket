@@ -33,12 +33,12 @@
 
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
 import { User } from "../../users/entities/user.entity"
-import { Transaction } from "../../transactions /entities/transactions.entity";
+import {  Transactions } from "../../transactions /entities/transactions.entity";
 
 
 
 
-@Entity()
+@Entity('account')
 export class Account {
   @PrimaryGeneratedColumn()
   id: number;
@@ -62,8 +62,8 @@ export class Account {
   @ManyToOne(() => User, (user) => user.accounts)
   user: User;
 
-  @OneToMany(() => Transaction, (transaction) => transaction.account)
-  transactions: Transaction[];
+  @OneToMany(() => Transactions, (transaction) => transaction.account)
+  transactions: Transactions[];
 }
 
 

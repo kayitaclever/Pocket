@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus, HttpException } from '@nestjs/common';
 import { UserService } from './users.service';
 import { User } from './entities/user.entity';
 
@@ -15,7 +15,15 @@ export class UsersController {
       return this.handleError(error);
     }
   }
-
+  @Get()
+  async getAllUsers(): Promise<User[]> {
+    try {
+      const users = await this.userService.getAllusers();
+      return users;
+    } catch (error) {
+      throw new HttpException(this.handleError(error), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
   @Get(':id')
   async getUserById(@Param('id') id: string): Promise<User | null> {
     try {

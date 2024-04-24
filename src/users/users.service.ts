@@ -12,7 +12,9 @@ export class UserService {
     const newUser = await this.userRepository.save(user);
     return newUser;
   }
-
+  async getAllusers(): Promise<User[]> {
+    return await this.userRepository.find();
+  }
   async getUserById(id: string): Promise<User | null> {
     const numericId = parseInt(id, 10); 
 

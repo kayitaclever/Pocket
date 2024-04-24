@@ -1,30 +1,8 @@
-// import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-// @Schema()
-// export class Category {
-//   @Prop()
-//   id: string;
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne } from "typeorm";
+import { Transactions } from "../../transactions /entities/transactions.entity";
 
-//   @Prop()
-//   name: string;
-
-//   @Prop()
-//   type: string; 
-
-//   @Prop()
-//   createdAt: Date;
-
-//   @Prop()
-//   updatedAt: Date;
-// }
-
-// export const categorySchema = SchemaFactory.createForClass(Category);
-
-
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from "typeorm";
-import { Transaction } from "../../transactions /entities/transactions.entity";
-
-@Entity()
+@Entity('categories')
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;
@@ -35,6 +13,6 @@ export class Category {
   @Column({ nullable: true })
   description: string;
 
-  @ManyToMany(() => Transaction, (transaction) => transaction.categories)
-  transactions: Transaction[];
+  @ManyToOne(() => Transactions, (transaction) => transaction.category)
+  transactions: Transactions[];
 }

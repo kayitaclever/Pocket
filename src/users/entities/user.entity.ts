@@ -24,9 +24,11 @@
 // export const userSchema = SchemaFactory.createForClass(User);
 
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Transaction } from "../../transactions /entities/transactions.entity";
+import { Transactions } from "../../transactions /entities/transactions.entity";
+import { Account } from "src/accounts/entities/account.entity";
+import { Budget } from "src/budgets /entities/budget.entity";
 
-@Entity()
+@Entity('user')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -49,9 +51,14 @@ export class User {
   @Column()
   updatedAt: Date;
 
-  @OneToMany(() => Transaction, (transaction) => transaction.user)
-  transactions: Transaction[];
-  accounts: any;
-  budgets: any;
-    analyses: any;
+  @OneToMany(() => Transactions, (transactions) => transactions.user)
+  transactions: Transactions[];
+
+  @OneToMany (()=> Account, (account) => account.user)
+  accounts: Account[];
+
+@OneToMany (()=> Budget,(budget)=> budget.user)
+  budgets: Budget[]
+  analyses: any;
+
 }

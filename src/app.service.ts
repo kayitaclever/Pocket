@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './users/entities/user.entity';
 import { Account } from './accounts/entities/account.entity';
-import { Transaction } from "./transactions /entities/transactions.entity";
+import { Transactions } from "./transactions /entities/transactions.entity";
 
 import { Category } from './categories/entities/category.entity';
 import { Budget } from './budgets /entities/budget.entity';
@@ -36,7 +36,7 @@ export class AppService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
     @InjectModel(Account.name) private readonly accountModel: Model<Account>,
-    @InjectModel(Transaction.name) private readonly transactionModel: Model<Transaction>,
+    @InjectModel(Transactions.name) private readonly transactionModel: Model<Transactions>,
     @InjectModel(Category.name) private readonly categoryModel: Model<Category>,
     @InjectModel(Budget.name) private readonly budgetModel: Model<Budget>,
   ) {}
@@ -79,16 +79,16 @@ export class AppService {
 
   
 
-  async createTransaction(transaction: Transaction): Promise<Transaction> {
+  async createTransaction(transaction: Transactions): Promise<Transactions> {
     const newTransaction = new this.transactionModel(transaction);
     return await newTransaction.save();
   }
 
-  async getTransactionById(id: string): Promise<Transaction | null> {
+  async getTransactionById(id: string): Promise<Transactions | null> {
     return await this.transactionModel.findById(id);
   }
 
-  async updateTransaction(id: string, updateData: Partial<Transaction>): Promise<Transaction | null> {
+  async updateTransaction(id: string, updateData: Partial<Transactions>): Promise<Transactions | null> {
     return await this.transactionModel.findByIdAndUpdate(id, updateData, { new: true });
   }
 

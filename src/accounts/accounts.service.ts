@@ -11,7 +11,9 @@ export class AccountService {
     const newAccount = await this.accountRepository.save(account);
     return newAccount;
   }
-
+  async getAllAccounts(): Promise<Account[]> {
+    return await this.accountRepository.find();
+  }
   async getAccountById(id: string): Promise<Account | null> {
     const numericId = parseInt(id, 10); 
     return await this.accountRepository.findOne({ where: { id: numericId } });

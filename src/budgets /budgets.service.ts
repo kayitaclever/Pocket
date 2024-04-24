@@ -5,13 +5,16 @@ import { Budget } from './entities/budget.entity';
 
 @Injectable()
 export class BudgetService {
+  getAllbudgets() {
+    throw new Error('Method not implemented.');
+  }
   constructor(@InjectRepository(Budget) private readonly budgetRepository: Repository<Budget>) {}
 
   async createBudget(budget: Budget): Promise<Budget> {
     const newBudget = await this.budgetRepository.save(budget);
     return newBudget;
   }
-
+  
   async getBudgetById(id: string): Promise<Budget | null> {
     const numericId = parseInt(id, 10); 
 
