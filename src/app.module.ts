@@ -7,10 +7,12 @@ import { Account } from './accounts/entities/account.entity';
 import { Category } from './categories/entities/category.entity';
 import { Budget } from './budgets /entities/budget.entity';
 import { Transaction } from "./transactions /entities/transactions.entity";
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 
 @Module({
   imports: [
+    ConfigModule,
     TypeOrmModule.forRootAsync({
       useFactory: async (configService: ConfigService) => ({
         type: 'mysql',
@@ -29,3 +31,5 @@ import { ConfigService } from '@nestjs/config';
   providers: [UserService],
 })
 export class AppModule {}
+
+

@@ -53,4 +53,5 @@ export class User {
   transactions: Transaction[];
   accounts: any;
   budgets: any;
+    analyses: any;
 }
