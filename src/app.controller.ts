@@ -1,26 +1,34 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { User } from './users/entities/user.entity';
 import { Account } from './accounts/entities/account.entity';
-import { Transactions } from "./transactions /entities/transactions.entity";
+import { Transactions } from './transactions /entities/transactions.entity';
 import { Category } from './categories/entities/category.entity';
-import { Budget } from './budgets /entities/budget.entity'; 
+import { Budget } from './budgets /entities/budget.entity';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
-  @Post('/users') 
+  @Post('/users')
   async createUser(@Body() user: User): Promise<User | any> {
     try {
       const newUser = await this.appService.createUser(user);
       return newUser;
     } catch (error) {
-      console.log("water", error) 
+      console.log('water', error);
       return this.handleError(error);
     }
   }
 
-  @Get('/users/:id') 
+  @Get('/users/:id')
   async getUserById(@Param('id') id: string): Promise<User | null> {
     try {
       return await this.appService.getUserById(id);
@@ -29,8 +37,11 @@ export class AppController {
     }
   }
 
-  @Put('/users/:id') 
-  async updateUser(@Param('id') id: string, @Body() updateUser: Partial<User>): Promise<User | null> {
+  @Put('/users/:id')
+  async updateUser(
+    @Param('id') id: string,
+    @Body() updateUser: Partial<User>,
+  ): Promise<User | null> {
     try {
       return await this.appService.updateUser(id, updateUser);
     } catch (error) {
@@ -38,7 +49,7 @@ export class AppController {
     }
   }
 
-  @Delete('/users/:id') 
+  @Delete('/users/:id')
   async deleteUser(@Param('id') id: string): Promise<any> {
     try {
       return await this.appService.deleteUser(id);
@@ -47,9 +58,7 @@ export class AppController {
     }
   }
 
-  
-
-  @Post('/accounts') 
+  @Post('/accounts')
   async createAccount(@Body() account: Account): Promise<Account | any> {
     try {
       const newAccount = await this.appService.createAccount(account);
@@ -59,7 +68,7 @@ export class AppController {
     }
   }
 
-  @Get('/accounts/:id') 
+  @Get('/accounts/:id')
   async getAccountById(@Param('id') id: string): Promise<Account | null> {
     try {
       return await this.appService.getAccountById(id);
@@ -68,8 +77,11 @@ export class AppController {
     }
   }
 
-  @Put('/accounts/:id') 
-  async updateAccount(@Param('id') id: string, @Body() updateData: Partial<Account>): Promise<Account | null> {
+  @Put('/accounts/:id')
+  async updateAccount(
+    @Param('id') id: string,
+    @Body() updateData: Partial<Account>,
+  ): Promise<Account | null> {
     try {
       return await this.appService.updateAccount(id, updateData);
     } catch (error) {
@@ -77,7 +89,7 @@ export class AppController {
     }
   }
 
-  @Delete('/accounts/:id') 
+  @Delete('/accounts/:id')
   async deleteAccount(@Param('id') id: string): Promise<any> {
     try {
       return await this.appService.deleteAccount(id);
@@ -86,20 +98,23 @@ export class AppController {
     }
   }
 
-  
-
-  @Post('/transactions') 
-  async createTransaction(@Body() transaction: Transactions): Promise<Transactions | any> {
+  @Post('/transactions')
+  async createTransaction(
+    @Body() transaction: Transactions,
+  ): Promise<Transactions | any> {
     try {
-      const newTransaction = await this.appService.createTransaction(transaction);
+      const newTransaction =
+        await this.appService.createTransaction(transaction);
       return newTransaction;
     } catch (error) {
       return this.handleError(error);
     }
   }
 
-  @Get('/transactions/:id') 
-  async getTransactionById(@Param('id') id: string): Promise<Transactions | null> {
+  @Get('/transactions/:id')
+  async getTransactionById(
+    @Param('id') id: string,
+  ): Promise<Transactions | null> {
     try {
       return await this.appService.getTransactionById(id);
     } catch (error) {
@@ -107,8 +122,10 @@ export class AppController {
     }
   }
 
-  @Get('/accounts/:accountId/transactions') 
-  async getTransactionsByAccountId(@Param('accountId') accountId: string): Promise<Transactions[] | any> {
+  @Get('/accounts/:accountId/transactions')
+  async getTransactionsByAccountId(
+    @Param('accountId') accountId: string,
+  ): Promise<Transactions[] | any> {
     try {
       return await this.appService.getTransactionById(accountId);
     } catch (error) {
@@ -116,8 +133,11 @@ export class AppController {
     }
   }
 
-  @Put('/transactions/:id') 
-  async updateTransaction(@Param('id') id: string, @Body() updateData: Partial<Transactions>): Promise<Transactions | any> {
+  @Put('/transactions/:id')
+  async updateTransaction(
+    @Param('id') id: string,
+    @Body() updateData: Partial<Transactions>,
+  ): Promise<Transactions | any> {
     try {
       return await this.appService.updateTransaction(id, updateData);
     } catch (error) {
@@ -125,7 +145,7 @@ export class AppController {
     }
   }
 
-  @Delete('/transactions/:id') 
+  @Delete('/transactions/:id')
   async deleteTransaction(@Param('id') id: string): Promise<any> {
     try {
       return await this.appService.deleteTransaction(id);
@@ -134,9 +154,7 @@ export class AppController {
     }
   }
 
-  
-
-  @Post('/categories') 
+  @Post('/categories')
   async createCategory(@Body() category: Category): Promise<Category | any> {
     try {
       const newCategory = await this.appService.createCategory(category);
@@ -146,7 +164,7 @@ export class AppController {
     }
   }
 
-  @Get('/categories/:id') 
+  @Get('/categories/:id')
   async getCategoryById(@Param('id') id: string): Promise<Category | null> {
     try {
       return await this.appService.getCategoryById(id);
@@ -155,8 +173,11 @@ export class AppController {
     }
   }
 
-  @Put('/categories/:id') 
-  async updateCategory(@Param('id') id: string, @Body() updateData: Partial<Category>): Promise<Category | null> {
+  @Put('/categories/:id')
+  async updateCategory(
+    @Param('id') id: string,
+    @Body() updateData: Partial<Category>,
+  ): Promise<Category | null> {
     try {
       return await this.appService.updateCategory(id, updateData);
     } catch (error) {
@@ -164,7 +185,7 @@ export class AppController {
     }
   }
 
-  @Delete('/categories/:id') 
+  @Delete('/categories/:id')
   async deleteCategory(@Param('id') id: string): Promise<any> {
     try {
       return await this.appService.deleteCategory(id);
@@ -172,18 +193,11 @@ export class AppController {
       return this.handleError(error);
     }
   }
-  handleError(error: any): any {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  handleError(_error: any): any {
     throw new Error('Method not implemented.');
   }
 
-  
-
-  @Post('/budgets') 
-  async createBudget(@Body() budget: Budget): Promise<Budget | any> {
-  
-  }
-
-  
-  
-
+  @Post('/budgets')
+  async createBudget(): Promise<Budget | any> {}
 }

@@ -1,4 +1,16 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus, HttpException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  Res,
+  HttpStatus,
+  HttpException,
+} from '@nestjs/common';
 import { UserService } from './users.service';
 import { User } from './entities/user.entity';
 
@@ -21,7 +33,10 @@ export class UsersController {
       const users = await this.userService.getAllusers();
       return users;
     } catch (error) {
-      throw new HttpException(this.handleError(error), HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        this.handleError(error),
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
   @Get(':id')
@@ -34,7 +49,10 @@ export class UsersController {
   }
 
   @Put(':id')
-  async updateUser(@Param('id') id: string, @Body() updateUser: Partial<User>): Promise<User | null> {
+  async updateUser(
+    @Param('id') id: string,
+    @Body() updateUser: Partial<User>,
+  ): Promise<User | null> {
     try {
       return await this.userService.updateUser(id, updateUser);
     } catch (error) {
@@ -52,8 +70,10 @@ export class UsersController {
   }
 
   private handleError(error: any): any {
-    
     console.error(error);
-    return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Internal Server Error' };
+    return {
+      statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+      message: 'Internal Server Error',
+    };
   }
 }

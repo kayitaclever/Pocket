@@ -1,5 +1,6 @@
 import { registerAs } from '@nestjs/config';
 import 'dotenv/config';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 
 export default registerAs('app', () => ({

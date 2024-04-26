@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus, HttpException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  HttpStatus,
+} from '@nestjs/common';
 import { BudgetService } from './budgets.service';
 import { Budget } from './entities/budget.entity';
 
@@ -15,7 +24,7 @@ export class BudgetsController {
       return this.handleError(error);
     }
   }
-  
+
   @Get(':id')
   async getBudgetById(@Param('id') id: string): Promise<Budget | null> {
     try {
@@ -26,7 +35,10 @@ export class BudgetsController {
   }
 
   @Put(':id')
-  async updateBudget(@Param('id') id: string, @Body() updateData: Partial<Budget>): Promise<Budget | null> {
+  async updateBudget(
+    @Param('id') id: string,
+    @Body() updateData: Partial<Budget>,
+  ): Promise<Budget | null> {
     try {
       return await this.budgetService.updateBudget(id, updateData);
     } catch (error) {
@@ -45,6 +57,9 @@ export class BudgetsController {
 
   private handleError(error: any): any {
     console.error(error);
-    return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Internal Server Error' };
+    return {
+      statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+      message: 'Internal Server Error',
+    };
   }
 }

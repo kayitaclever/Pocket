@@ -1,7 +1,5 @@
-
-
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { User } from "../../users/entities/user.entity";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
 
 @Entity('budget')
 export class Budget {
@@ -18,9 +16,7 @@ export class Budget {
   startDate: Date;
 
   @Column()
-  updated: Date 
-
-  
+  updated: Date;
 
   @ManyToOne(() => User, (user) => user.budgets)
   user: User;

@@ -1,48 +1,10 @@
-// import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-// import * as mongoose from 'mongoose';
-
-// import { User } from './user.entity';
-
-// @Schema()
-// export class Account {
-//   @Prop()
-//   id: string;
-
-//   @Prop()
-//   name: string;
-
-//   @Prop()
-//   type: string; 
-
-//   @Prop()
-//   balance: number;
-
-//   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-//   owner: User;
-
-//   @Prop()
-//   createdAt: Date;
-
-//   @Prop()
-//   updatedAt: Date;
-// }
-
-// export const accountSchema = SchemaFactory.createForClass(Account);
-
-
-
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
-import { User } from "../../users/entities/user.entity"
-import {  Transactions } from "../../transactions /entities/transactions.entity";
-
-
-
+import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import { Transactions } from '../../transactions /entities/transactions.entity';
+import { Audit } from 'src/shared/entities/audit.entity';
 
 @Entity('account')
-export class Account {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Account extends Audit {
   @Column()
   name: string;
 
@@ -50,14 +12,7 @@ export class Account {
   type: string;
 
   @Column()
-  balance: string;
-
-  @Column()
-  createdAt: Date;
-
-  @Column()
-  UpdatedAt: Date;
-
+  balance: number;
 
   @ManyToOne(() => User, (user) => user.accounts)
   user: User;
@@ -65,9 +20,3 @@ export class Account {
   @OneToMany(() => Transactions, (transaction) => transaction.account)
   transactions: Transactions[];
 }
-
-
-
-
-
-

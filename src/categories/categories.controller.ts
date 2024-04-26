@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus, HttpException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  HttpStatus,
+  HttpException,
+} from '@nestjs/common';
 import { CategoryService } from './categories.service';
 import { Category } from './entities/category.entity';
 
@@ -21,7 +31,10 @@ export class CategoriesController {
       const categories = await this.categoryService.getAllCategories();
       return categories;
     } catch (error) {
-      throw new HttpException(this.handleError(error), HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        this.handleError(error),
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
   @Get(':id')
@@ -34,7 +47,10 @@ export class CategoriesController {
   }
 
   @Put(':id')
-  async updateCategory(@Param('id') id: string, @Body() updateData: Partial<Category>): Promise<Category | null> {
+  async updateCategory(
+    @Param('id') id: string,
+    @Body() updateData: Partial<Category>,
+  ): Promise<Category | null> {
     try {
       return await this.categoryService.updateCategory(id, updateData);
     } catch (error) {
@@ -53,6 +69,9 @@ export class CategoriesController {
 
   private handleError(error: any): any {
     console.error(error);
-    return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Internal Server Error' };
+    return {
+      statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+      message: 'Internal Server Error',
+    };
   }
 }

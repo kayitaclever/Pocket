@@ -1,15 +1,26 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus, HttpException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  HttpStatus,
+  HttpException,
+} from '@nestjs/common';
 import { AccountService } from './accounts.service';
 import { Account } from './entities/account.entity';
+import { CreateAccountDto } from './dto/create-account.dto';
 
 @Controller('accounts')
 export class AccountsController {
   constructor(private readonly accountService: AccountService) {}
 
   @Post()
-  async createAccount(@Body() account: Account): Promise<Account | any> {
+  async createAccount(@Body() payload: CreateAccountDto): Promise<Account> {
     try {
-      const newAccount = await this.accountService.createAccount(account);
+      const newAccount = await this.accountService.createAccount(payload);
       return newAccount;
     } catch (error) {
       return this.handleError(error);
@@ -22,7 +33,10 @@ export class AccountsController {
       const accounts = await this.accountService.getAllAccounts();
       return accounts;
     } catch (error) {
-      throw new HttpException(this.handleError(error), HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        this.handleError(error),
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -36,7 +50,10 @@ export class AccountsController {
   }
 
   @Put(':id')
-  async updateAccount(@Param('id') id: string, @Body() updateData: Partial<Account>): Promise<Account | null> {
+  async updateAccount(
+    @Param('id') id: string,
+    @Body() updateData: Partial<Account>,
+  ): Promise<Account | null> {
     try {
       return await this.accountService.updateAccount(id, updateData);
     } catch (error) {
@@ -55,6 +72,9 @@ export class AccountsController {
 
   private handleError(error: any): any {
     console.error(error);
-    return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Internal Server Error' };
+    return {
+      statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+      message: 'Internal Server Error',
+    };
   }
 }

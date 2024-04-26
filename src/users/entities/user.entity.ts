@@ -4,12 +4,12 @@
 // export class User {
 //     @Prop({ optional: true })
 //     id: string;
-    
+
 //   @Prop({ unique: true })
 //   username: string;
 
 //   @Prop()
-//   password: string; 
+//   password: string;
 
 //   @Prop()
 //   email: string;
@@ -23,10 +23,10 @@
 
 // export const userSchema = SchemaFactory.createForClass(User);
 
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Transactions } from "../../transactions /entities/transactions.entity";
-import { Account } from "src/accounts/entities/account.entity";
-import { Budget } from "src/budgets /entities/budget.entity";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Transactions } from '../../transactions /entities/transactions.entity';
+import { Account } from 'src/accounts/entities/account.entity';
+import { Budget } from 'src/budgets /entities/budget.entity';
 
 @Entity('user')
 export class User {
@@ -43,7 +43,7 @@ export class User {
   Password: string;
 
   @Column({ unique: true })
-  email: string
+  email: string;
 
   @Column()
   createdAt: Date;
@@ -54,11 +54,10 @@ export class User {
   @OneToMany(() => Transactions, (transactions) => transactions.user)
   transactions: Transactions[];
 
-  @OneToMany (()=> Account, (account) => account.user)
+  @OneToMany(() => Account, (account) => account.user)
   accounts: Account[];
 
-@OneToMany (()=> Budget,(budget)=> budget.user)
-  budgets: Budget[]
+  @OneToMany(() => Budget, (budget) => budget.user)
+  budgets: Budget[];
   analyses: any;
-
 }

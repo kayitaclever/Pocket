@@ -1,8 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { User } from "../../users/entities/user.entity";
-import { Account } from "../../accounts/entities/account.entity";
-import { Category } from "src/categories/entities/category.entity";
-import { CategoriesController } from "src/categories/categories.controller";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import { Account } from '../../accounts/entities/account.entity';
+import { Category } from 'src/categories/entities/category.entity';
 
 @Entity('transactions')
 export class Transactions {
@@ -15,22 +14,18 @@ export class Transactions {
   @Column()
   date: Date;
 
- 
   @Column()
   createdAt: Date;
 
   @Column()
   UpdatedAt: Date;
 
-
   @ManyToOne(() => User, (user) => user.transactions)
   user: User;
 
   @ManyToOne(() => Account, (account) => account.transactions)
   account: Account;
-  
-  @ManyToOne (()=> Category, (category)=> category.transactions)
+
+  @ManyToOne(() => Category, (category) => category.transactions)
   category: Category;
 }
-
- 
