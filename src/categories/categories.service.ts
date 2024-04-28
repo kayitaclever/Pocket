@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+
 import { Category } from '../categories/entities/category.entity';
+import { CreateCategoryDto } from './dto/create-category.dto';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoryService {
@@ -10,40 +12,40 @@ export class CategoryService {
     private readonly categoryRepository: Repository<Category>,
   ) {}
 
-  async createCategory(category: Category): Promise<Category> {
-    const newCategory = await this.categoryRepository.save(category);
-    return newCategory;
+  async createCategory(payload: CreateCategoryDto): Promise<Category> {
+    try {
+      const category = new Category();
+      category.name = payload.name;
+      category.description = payload.description;
+      await this.categoryRepository.save(category);
+      return category;
+    } catch (error) {
+      throw error;
+    }
   }
+
   async getAllCategories(): Promise<Category[]> {
     return await this.categoryRepository.find();
   }
 
   async getCategoryById(id: string): Promise<Category | null> {
-    const numericId = parseInt(id, 10);
-
-    return await this.categoryRepository.findOne({ where: { id: numericId } });
-  }
-
-  async getCategories(): Promise<Category[]> {
-    return await this.categoryRepository.find();
+    return await this.categoryRepository.findOne({ where: { id } });
   }
 
   async updateCategory(
     id: string,
     updateData: Partial<Category>,
   ): Promise<Category | null> {
-    const numericId = parseInt(id, 10);
-    await this.categoryRepository.update({ id: numericId }, updateData);
+    await this.categoryRepository.update({ id }, updateData);
     return await this.getCategoryById(id);
   }
 
   async deleteCategory(id: string): Promise<any> {
-    const numericId = parseInt(id, 10);
     const deleteResponse = await this.categoryRepository.delete({
-      id: numericId,
+      id,
     });
     if (deleteResponse.affected > 0) {
-      return { message: 'Your Category was deleted successfully' };
+      return { message: 'Your Budget was deleted successfully' };
     } else {
       return null;
     }

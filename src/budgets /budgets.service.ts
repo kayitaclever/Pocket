@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Budget } from './entities/budget.entity';
+import { CreateBudgetDto } from './dto/create-budget.dto';
 
 @Injectable()
 export class BudgetService {
@@ -13,32 +14,34 @@ export class BudgetService {
     private readonly budgetRepository: Repository<Budget>,
   ) {}
 
-  async createBudget(budget: Budget): Promise<Budget> {
-    const newBudget = await this.budgetRepository.save(budget);
-    return newBudget;
+  async createBudget(payload: CreateBudgetDto): Promise<Budget> {
+    try {
+      const budget = new Budget();
+      budget.name = payload.name;
+      budget.amount = payload.amount;
+
+      await this.budgetRepository.save(budget);
+      return budget;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getBudgetById(id: string): Promise<Budget | null> {
-    const numericId = parseInt(id, 10);
-
-    return await this.budgetRepository.findOne({ where: { id: numericId } });
+    return await this.budgetRepository.findOne({ where: { id } });
   }
-
-  async getBudgetsByUserId(): Promise<Budget[] | any> {}
 
   async updateBudget(
     id: string,
     updateData: Partial<Budget>,
   ): Promise<Budget | null> {
-    const numericId = parseInt(id, 10);
-    await this.budgetRepository.update({ id: numericId }, updateData);
+    await this.budgetRepository.update({ id }, updateData);
     return await this.getBudgetById(id);
   }
 
   async deleteBudget(id: string): Promise<any> {
-    const numericId = parseInt(id, 10);
     const deleteResponse = await this.budgetRepository.delete({
-      id: numericId,
+      id,
     });
     if (deleteResponse.affected > 0) {
       return { message: 'Your Budget was deleted successfully' };

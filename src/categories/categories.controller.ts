@@ -11,16 +11,20 @@ import {
 } from '@nestjs/common';
 import { CategoryService } from './categories.service';
 import { Category } from './entities/category.entity';
+import { CreateCategoryDto } from './dto/create-category.dto';
 
 @Controller('categories')
 export class CategoriesController {
+  budgetService: any;
   constructor(private readonly categoryService: CategoryService) {}
 
   @Post()
-  async createCategory(@Body() category: Category): Promise<Category | any> {
+  async createCategories(
+    @Body() payload: CreateCategoryDto,
+  ): Promise<Category> {
     try {
-      const newCategory = await this.categoryService.createCategory(category);
-      return newCategory;
+      const newBudget = await this.budgetService.createAccount(payload);
+      return newBudget;
     } catch (error) {
       return this.handleError(error);
     }

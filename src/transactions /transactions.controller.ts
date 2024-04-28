@@ -11,23 +11,26 @@ import {
 } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
 import { Transactions } from './entities/transactions.entity';
+import { CreateTransactionDto } from './dto/create-transactions.dto';
 
 @Controller('transactions')
 export class TransactionsController {
+  accountService: any;
   constructor(private readonly transactionsService: TransactionsService) {}
 
   @Post()
-  async createTransaction(
-    @Body() transaction: Transactions,
-  ): Promise<Transactions | any> {
+  async createTransactions(
+    @Body() payload: CreateTransactionDto,
+  ): Promise<Transactions> {
     try {
       const newTransaction =
-        await this.transactionsService.createTransaction(transaction);
+        await this.transactionsService.createTransaction(payload);
       return newTransaction;
     } catch (error) {
       return this.handleError(error);
     }
   }
+
   @Get()
   async getAllTransactions(): Promise<Transactions[]> {
     try {
@@ -68,7 +71,7 @@ export class TransactionsController {
     @Body() updateData: Partial<Transactions>,
   ): Promise<Transactions | null> {
     try {
-      return await this.transactionsService.updateTransaction(id, updateData);
+      return await this.transactionsService.updateTransactiont(id, updateData);
     } catch (error) {
       return this.handleError(error);
     }

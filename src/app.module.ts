@@ -13,6 +13,7 @@ import { BudgetModule } from './budgets /budget.module';
 import { CategoryModule } from './categories/categories.module';
 import { UserModule } from './users/users.module';
 import { TransactionsModule } from './transactions /transactions.module';
+import { AnalyticsModule } from './analytics /analytics.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { TransactionsModule } from './transactions /transactions.module';
     CategoryModule,
     UserModule,
     TransactionsModule,
+    AnalyticsModule,
   ],
   // controllers: [AppController],
   // providers: [UserService],

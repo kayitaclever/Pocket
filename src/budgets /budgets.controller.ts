@@ -8,17 +8,18 @@ import {
   Param,
   HttpStatus,
 } from '@nestjs/common';
-import { BudgetService } from './budgets.service';
 import { Budget } from './entities/budget.entity';
+import { CreateBudgetDto } from './dto/create-budget.dto';
+import { BudgetService } from './budgets.service';
 
 @Controller('budgets')
 export class BudgetsController {
   constructor(private readonly budgetService: BudgetService) {}
 
   @Post()
-  async createBudget(@Body() budget: Budget): Promise<Budget | any> {
+  async createBudget(@Body() payload: CreateBudgetDto): Promise<Budget> {
     try {
-      const newBudget = await this.budgetService.createBudget(budget);
+      const newBudget = await this.budgetService.createBudget(payload);
       return newBudget;
     } catch (error) {
       return this.handleError(error);

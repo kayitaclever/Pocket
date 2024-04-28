@@ -1,11 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
 import { Transactions } from '../../transactions /entities/transactions.entity';
+import { Audit } from 'src/shared/entities/audit.entity';
 
 @Entity('categories')
-export class Category {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Category extends Audit {
   @Column()
   name: string;
 
@@ -14,4 +12,6 @@ export class Category {
 
   @ManyToOne(() => Transactions, (transaction) => transaction.category)
   transactions: Transactions[];
+  category: any;
+  accounts: any;
 }

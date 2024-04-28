@@ -1,38 +1,11 @@
-// import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-
-// @Schema()
-// export class User {
-//     @Prop({ optional: true })
-//     id: string;
-
-//   @Prop({ unique: true })
-//   username: string;
-
-//   @Prop()
-//   password: string;
-
-//   @Prop()
-//   email: string;
-
-//   @Prop()
-//   createdAt: Date;
-
-//   @Prop()
-//   updatedAt: Date;
-// }
-
-// export const userSchema = SchemaFactory.createForClass(User);
-
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { Transactions } from '../../transactions /entities/transactions.entity';
 import { Account } from 'src/accounts/entities/account.entity';
 import { Budget } from 'src/budgets /entities/budget.entity';
+import { Audit } from 'src/shared/entities/audit.entity';
 
 @Entity('user')
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class User extends Audit {
   @Column()
   name: string;
 
@@ -45,12 +18,6 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column()
-  createdAt: Date;
-
-  @Column()
-  updatedAt: Date;
-
   @OneToMany(() => Transactions, (transactions) => transactions.user)
   transactions: Transactions[];
 
@@ -59,5 +26,4 @@ export class User {
 
   @OneToMany(() => Budget, (budget) => budget.user)
   budgets: Budget[];
-  analyses: any;
 }
