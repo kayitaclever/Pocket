@@ -14,6 +14,7 @@ import { CategoryModule } from './categories/categories.module';
 import { UserModule } from './users/users.module';
 import { TransactionsModule } from './transactions /transactions.module';
 import { AnalyticsModule } from './analytics /analytics.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { AnalyticsModule } from './analytics /analytics.module';
     UserModule,
     TransactionsModule,
     AnalyticsModule,
+    AuthModule,
   ],
   // controllers: [AppController],
   // providers: [UserService],

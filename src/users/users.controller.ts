@@ -80,38 +80,4 @@ export class UsersController {
       message: 'Internal Server Error',
     };
   }
-
-  @Post('/accounts')
-  async createUserAccount(
-    @Body() payload: CreateAccountDto,
-    @User('id') userId: string,
-  ): Promise<Account> {
-    try {
-      const account = await this.accountService.createUserAccount(
-        userId,
-        payload,
-      );
-      return account;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  @Put('/accounts/:accountId')
-  async editUserAccount(
-    @Param('accountId') accountId: string,
-    @Body() updateData: Partial<Account>,
-    @User('id') userId: string,
-  ): Promise<Account | null> {
-    try {
-      const account = await this.accountService.editUserAccount(
-        userId,
-        accountId,
-        updateData,
-      );
-      return account;
-    } catch (error) {
-      throw error;
-    }
-  }
 }
