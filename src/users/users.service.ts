@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
@@ -79,6 +79,11 @@ export class UserService {
       throw error;
     }
   }
+  async getUserAccounts(userId: string): Promise<Account[]> {
+    const user = await this.userRepository.findOneOrFail(userId);
+
+    return await this.accountRepository.find({ where: { user } });
+  }
 
   async editUserAccount(
     userId: string,
@@ -113,8 +118,19 @@ export class UserService {
       throw error;
     }
   }
+  async deleteAccount(userId: string, accountId: string): Promise<any> {
+    const user = await this.userRepository.findOneOrFail(userId);
 
-  async findOneByEmail(email: string): Promise<User | undefined> {
-    return await this.userRepository.findOne({ email });
+    const account = await this.accountRepository.findOneOrFail({
+      where: { id: accountId, user },
+    });
+
+    if (account.user.id !== user.id) {
+      throw new ForbiddenException('You can only delete your own accounts');
+    }
+
+    await this.accountRepository.delete(account);
+
+    return null;
   }
 }

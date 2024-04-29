@@ -16,6 +16,7 @@ import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user-dto';
 import { CreateAccountDto } from 'src/accounts/dto/create-account.dto';
 import { Account } from 'src/accounts/entities/account.entity';
+import { UpdateAccountDto } from './dto/update-account-dto';
 
 @Controller('users')
 export class UsersController {
@@ -79,5 +80,59 @@ export class UsersController {
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
       message: 'Internal Server Error',
     };
+  }
+
+  @Get(':userId/accounts')
+  async getUserAccounts(@Param('userId') userId: string): Promise<Account[]> {
+    try {
+      return await this.userService.getUserAccounts(userId);
+    } catch (error) {
+      return this.handleError(error);
+    }
+  }
+
+  @Post(':userId/accounts')
+  async createAccount(
+    @Param('userId') userId: string,
+    @Body() createAccountDto: CreateAccountDto,
+  ): Promise<Account> {
+    try {
+      const newAccount = await this.userService.createUserAccount(
+        userId,
+        createAccountDto,
+      );
+      return newAccount;
+    } catch (error) {
+      return this.handleError(error);
+    }
+  }
+
+  @Put(':userId/accounts/:accountId')
+  async updateAccount(
+    @Param('userId') userId: string,
+    @Param('accountId') accountId: string,
+    @Body() updateAccountDto: UpdateAccountDto,
+  ): Promise<Account | null> {
+    try {
+      return await this.userService.editUserAccount(
+        userId,
+        accountId,
+        updateAccountDto,
+      );
+    } catch (error) {
+      return this.handleError(error);
+    }
+  }
+
+  @Delete(':userId/accounts/:accountId')
+  async deleteAccount(
+    @Param('userId') userId: string,
+    @Param('accountId') accountId: string,
+  ): Promise<any> {
+    try {
+      return await this.userService.deleteAccount(userId, accountId);
+    } catch (error) {
+      return this.handleError(error);
+    }
   }
 }

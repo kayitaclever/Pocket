@@ -43,7 +43,7 @@ export class AnalyticsController {
       );
     }
   }
-
+  @Get('/transaction/status')
   async filterTransactions(filter: ExtendedTransactionAnalyticsDTO) {
     const filteredTransactions: Transactions[] = [];
 
