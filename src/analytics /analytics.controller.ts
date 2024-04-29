@@ -9,10 +9,12 @@ import { AnalyticsService } from './analytics.service';
 
 import { ExtendedTransactionAnalyticsDTO } from './entities/dto/transaction-analytics.dto';
 import { ExtendedBudgetSummaryDTO } from './entities/dto/budget-summary.dto';
+import { Transactions } from 'src/transactions /entities/transactions.entity';
 
 @Controller('analytics')
 export class AnalyticsController {
   budgetService: any;
+  transactionRepository: any;
   constructor(private readonly analyticsService: AnalyticsService) {}
 
   @Get('/summary')
@@ -40,5 +42,21 @@ export class AnalyticsController {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  async filterTransactions(filter: ExtendedTransactionAnalyticsDTO) {
+    const filteredTransactions: Transactions[] = [];
+
+    const allTransactions = await this.transactionRepository.find();
+
+    for (const transaction of allTransactions) {
+      if (filter.status && transaction.status === filter.status) {
+        filteredTransactions.push(transaction);
+      } else if (!filter.status) {
+        filteredTransactions.push(transaction);
+      }
+    }
+
+    return filteredTransactions;
   }
 }

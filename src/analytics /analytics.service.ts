@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Get, Injectable, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, LessThanOrEqual, Repository } from 'typeorm';
 import { Transactions } from 'src/transactions /entities/transactions.entity';
@@ -8,6 +8,7 @@ import { ExtendedBudgetSummaryDTO } from './entities/dto/budget-summary.dto';
 @Injectable()
 export class AnalyticsService {
   budgetRepository: any;
+  transactionsService: any;
   constructor(
     @InjectRepository(Transactions)
     private readonly transactionRepository: Repository<Transactions>,
@@ -62,16 +63,22 @@ export class AnalyticsService {
         id: transaction.id,
         amount: transaction.amount,
         date: transaction.date,
-        user: transaction.user?.name || transaction.user, // Handle potential missing user data
-        account: transaction.account?.name || transaction.account, // Handle potential missing account data
-        category: transaction.category?.name || transaction.category, // Handle potential missing category data
+        user: transaction.user?.name || transaction.user,
+        account: transaction.account?.name || transaction.account,
+        category: transaction.category?.name || transaction.category,
         status: transaction.status,
         note: transaction.note,
-        // Budget property not included as per your previous comment
       }),
     );
 
     return analyticsDTOs;
+  }
+
+  @Get('/filter')
+  async filterTransactions(@Query() filter: ExtendedTransactionAnalyticsDTO) {
+    const filteredTransactions =
+      await this.transactionsService.filterTransactions(filter);
+    return filteredTransactions;
   }
 }
 
